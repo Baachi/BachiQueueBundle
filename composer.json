@@ -2,8 +2,7 @@
     "require-dev": {
         "symfony/symfony": "2.*",
         "doctrine/dbal": "2.*",
-        "predis/predis": "*",
-        "videlalvaro/php-amqplib": "*"
+        "predis/predis": "*"
     },
     "autoload": {
         "psr-0": {
