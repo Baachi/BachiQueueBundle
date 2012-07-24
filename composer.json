@@ -1,0 +1,14 @@
+{
+    "require-dev": {
+        "symfony/symfony": "2.*",
+        "doctrine/dbal": "2.*",
+        "predis/predis": "*",
+        "videlalvaro/php-amqplib": "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Bachi\\QueueBundle": ""
+        }
+    },
+    "target-dir": "Bachi/QueueBundle"
+}
