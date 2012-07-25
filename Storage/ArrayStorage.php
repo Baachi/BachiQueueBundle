@@ -19,33 +19,33 @@ class ArrayStorage implements StorageInterface
         $this->jobs = array();
     }
 
-    /**
-     * @return array
-     */
-    public function getJobs()
+    public function add($name, JobInterface $job)
     {
-        return $this->jobs;
+        if (!isset($this->jobs[$name])) {
+            $this->jobs[$name] = array();
+        }
+
+        $this->jobs[$name][] = serialize($job);
     }
 
-    public function add(JobInterface $job)
+    public function count($name)
     {
-        $this->jobs[] = serialize($job);
+        if (!isset($this->jobs[$name])) {
+            return 0;
+        }
+
+        return count($this->jobs[$name]);
     }
 
-    public function count()
-    {
-        return count($this->jobs);
-    }
-
-    public function retrieve($max)
+    public function retrieve($name, $max)
     {
         $jobs = array();
 
-        foreach (array_slice($this->jobs, 0, $max) as $job) {
+        foreach (array_slice($this->jobs[$name], 0, $max) as $job) {
             $jobs[] = unserialize($job);
         }
 
-        $this->jobs = array_slice($this->jobs, $max);
+        $this->jobs[$name] = array_slice($this->jobs[$name], $max);
 
         return $jobs;
     }

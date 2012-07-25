@@ -22,7 +22,7 @@ class FlatFileStorageTest extends TestCase
 
     protected function tearDown()
     {
-        $files = glob(sys_get_temp_dir().'/jobs-tests/*.job');
+        $files = glob(sys_get_temp_dir().'/jobs-tests/*/*.job');
 
         foreach ($files as $file) {
             unlink($file);
@@ -33,26 +33,31 @@ class FlatFileStorageTest extends TestCase
     {
         $job = $this->createJob();
 
-        $this->assertTrue($this->storage->add($job));
+        $this->assertTrue($this->storage->add('test', $job));
     }
 
     public function testCount()
     {
-        $this->assertEquals(0, $this->storage->count());
+        $this->assertEquals(0, $this->storage->count('test'));
 
-        $this->storage->add($this->createJob());
-        $this->storage->add($this->createJob());
+        $this->storage->add('test', $this->createJob());
+        $this->storage->add('test', $this->createJob());
 
-        $this->assertCount(2, $this->storage);
+        $this->assertEquals(2, $this->storage->count('test'));
+    }
+
+    public function testCountWithEmptyElements()
+    {
+        $this->assertEquals(0, $this->storage->count('test'));
     }
 
     public function testRetrieve()
     {
         for ($i = 0; $i < 10; $i++) {
-            $this->storage->add($this->createJob());
+            $this->storage->add('test', $this->createJob());
         }
 
-        $this->assertCount(2, $this->storage->retrieve(2));
-        $this->assertCount(8, $this->storage);
+        $this->assertCount(2, $this->storage->retrieve('test', 2));
+        $this->assertEquals(8, $this->storage->count('test'));
     }
 }

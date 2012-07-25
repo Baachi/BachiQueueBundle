@@ -34,9 +34,17 @@ class Queue implements QueueInterface
     /**
      * {@inheritDoc}
      */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function add(JobInterface $job)
     {
-        $this->storage->add($job);
+        $this->storage->add($this->name, $job);
 
         return true;
     }
@@ -50,10 +58,10 @@ class Queue implements QueueInterface
             throw new \RuntimeException('$count must be greater then 0');
         }
 
-        if ($count > $max = count($this->storage)) {
+        if ($count > $max = $this->storage->count($this->name)) {
             throw new \RuntimeException(sprintf('$count is greater then the maximum size of %d', $max));
         }
 
-        return $this->storage->retrieve($count);
+        return $this->storage->retrieve($this->name, $count);
     }
 }

@@ -19,32 +19,37 @@ class DBALStorage implements StorageInterface
         $this->conn = $conn;
 
         $this->options = array_merge(array(
-            'table'       => 'jobs',
-            'id_column'   => 'id',
-            'data_column' => 'data',
-            'date_column' => 'created_at',
+            'table'        => 'jobs',
+            'id_column'    => 'id',
+            'queue_column' => 'queue_name',
+            'data_column'  => 'data',
+            'date_column'  => 'created_at',
         ));
     }
 
-    public function count()
+    public function count($name)
     {
-        $query = $this->conn->query(sprintf(
-            'SELECT COUNT(*) FROM %s',
-            $this->conn->quoteIdentifier($this->options['table'])
+        $stmt = $this->conn->prepare(sprintf(
+            'SELECT COUNT(*) FROM %s j WHERE j.%s = ?',
+            $this->conn->quoteIdentifier($this->options['table']),
+            $this->conn->quoteIdentifier($this->options['queue_column'])
         ));
 
-        return $query->fetchColumn(0);
+        $stmt->execute(array($name));
+
+        return $stmt->fetchColumn(0);
     }
 
-    public function add(JobInterface $job)
+    public function add($name, JobInterface $job)
     {
         $content = base64_encode(serialize($job));
 
         $this->conn->beginTransaction();
         try {
             $this->conn->insert($this->options['table'], array(
-                $this->options['data_column'] => $content,
-                $this->options['date_column'] => date(DATE_ISO8601),
+                $this->options['data_column']  => $content,
+                $this->options['queue_column'] => $name,
+                $this->options['date_column']  => date(DATE_ISO8601),
             ));
         } catch (\PDOException $e) {
             $this->conn->rollback();
@@ -54,19 +59,22 @@ class DBALStorage implements StorageInterface
         return true;
     }
 
-    public function retrieve($max)
+    public function retrieve($name, $max)
     {
-        $query = $this->conn->query(sprintf(
-            'SELECT %s as id, %s as bin FROM %s ORDER BY %s DESC LIMIT %s',
+        $stmt = $this->conn->prepare(sprintf(
+            'SELECT %s as id, %s as bin FROM %s WHERE %s = ? ORDER BY %s DESC LIMIT %s',
             $this->conn->quoteIdentifier($this->options['id_column']),
             $this->conn->quoteIdentifier($this->options['data_column']),
             $this->conn->quoteIdentifier($this->options['table']),
+            $this->conn->quoteIdentifier($this->options['queue_column']),
             $this->conn->quoteIdentifier($this->options['date_column']),
             $max
         ));
 
+        $stmt->execute(array($name));
+
         $jobs = array();
-        foreach ($query->fetchAll(\PDO::FETCH_ASSOC) as $row) {
+        foreach ($stmt->fetchAll(\PDO::FETCH_ASSOC) as $row) {
             $jobs[] = unserialize(base64_decode($row['bin']));
             $this->conn->delete($this->options['table'], array(
                 $this->options['id_column'] => $row['id'],

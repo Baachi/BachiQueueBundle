@@ -10,8 +10,6 @@ use Predis\Client;
  */
 class RedisStorage implements StorageInterface
 {
-    const HASH_NAME = 'queue-jobs';
-
     private $client;
 
     public function __construct(Client $client)
@@ -19,27 +17,27 @@ class RedisStorage implements StorageInterface
         $this->client = $client;
     }
 
-    public function count()
+    public function count($name)
     {
-        return $this->client->hlen(static::HASH_NAME);
+        return $this->client->hlen($name);
     }
 
-    public function add(JobInterface $job)
+    public function add($name, JobInterface $job)
     {
         $content = serialize($job);
         $key = uniqid(); // TODO find a better way to generate a ID
 
-        $this->client->hset(static::HASH_NAME, $key, $content);
+        $this->client->hset($name, $key, $content);
         return true;
     }
 
-    public function retrieve($max)
+    public function retrieve($name, $max)
     {
-        $ids = $this->client->hkeys(static::HASH_NAME);
+        $ids = $this->client->hkeys($name);
         $ids = array_slice($ids, 0, $max);
 
         $arguments = $ids;
-        array_unshift($arguments, static::HASH_NAME);
+        array_unshift($arguments, $name);
 
         $values = call_user_func_array(array($this->client, 'hmget'), $arguments);
 
@@ -47,7 +45,7 @@ class RedisStorage implements StorageInterface
 
         foreach ($values as $key => $value) {
             $jobs[] = unserialize($value);
-            $this->client->hdel(static::HASH_NAME, $ids[$key]);
+            $this->client->hdel($name, $ids[$key]);
         }
 
         return $jobs;

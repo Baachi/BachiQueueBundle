@@ -22,8 +22,7 @@ class QueueTest extends TestCase
 
         $this->assertTrue($queue->add($job));
 
-        $this->assertCount(1, $storage->getJobs());
-        $this->assertEquals(serialize($job), current($storage->getJobs()));
+        $this->assertEquals(1, $storage->count('test'));
     }
 
     public function testRetrieve()

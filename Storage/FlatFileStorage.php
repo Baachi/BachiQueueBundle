@@ -35,9 +35,9 @@ class FlatFileStorage implements StorageInterface
     /**
      * {@inheritDoc}
      */
-    public function count()
+    public function count($name)
     {
-        $iterator = new \RecursiveDirectoryIterator($this->basePath, \FilesystemIterator::SKIP_DOTS);
+        $iterator = new \RecursiveDirectoryIterator($this->basePath.DIRECTORY_SEPARATOR.$name, \FilesystemIterator::SKIP_DOTS);
         $iterator = new \RecursiveIteratorIterator($iterator);
         $iterator = new \RegexIterator($iterator, '#\.job$#');
 
@@ -47,10 +47,15 @@ class FlatFileStorage implements StorageInterface
     /**
      * {@inheritDoc}
      */
-    public function add(JobInterface $job)
+    public function add($name, JobInterface $job)
     {
         $serialized = serialize($job);
-        $filename   = $this->basePath.DIRECTORY_SEPARATOR.$this->calculateFilename($job);
+        $dir        = $this->basePath.DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR.$name;
+        $filename   = $dir.DIRECTORY_SEPARATOR.$this->calculateFilename($job);
+
+        if (!is_dir($dir)) {
+            mkdir($dir, 0777, true);
+        }
 
         return (bool) file_put_contents($filename, $serialized);
     }
@@ -58,9 +63,9 @@ class FlatFileStorage implements StorageInterface
     /**
      * {@inheritDoc}
      */
-    public function retrieve($max)
+    public function retrieve($name, $max)
     {
-        $iterator = new \RecursiveDirectoryIterator($this->basePath, \FilesystemIterator::SKIP_DOTS);
+        $iterator = new \RecursiveDirectoryIterator($this->basePath.DIRECTORY_SEPARATOR.$name, \FilesystemIterator::SKIP_DOTS);
         $iterator = new \RecursiveIteratorIterator($iterator);
         $iterator = new \RegexIterator($iterator, '#\.job$#');
 

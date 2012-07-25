@@ -7,9 +7,11 @@ use Bachi\QueueBundle\Model\JobInterface;
 /**
  * @author Markus Bachmann <markus.bachmann@bachi.biz
  */
-interface StorageInterface extends \Countable
+interface StorageInterface
 {
-    function add(JobInterface $job);
+    function count($name);
 
-    function retrieve($max);
+    function add($name, JobInterface $job);
+
+    function retrieve($name, $max);
 }

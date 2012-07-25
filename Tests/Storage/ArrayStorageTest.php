@@ -13,10 +13,9 @@ class ArrayStorageTest extends TestCase
     public function testAdd()
     {
         $storage = new ArrayStorage;
-        $storage->add($job = $this->createJob());
+        $storage->add('test', $job = $this->createJob());
 
-        $this->assertCount(1, $storage->getJobs());
-        $this->assertEquals(serialize($job), current($storage->getJobs()));
+        $this->assertEquals(1, $storage->count('test'));
     }
 
     public function testRetrieve()
@@ -24,11 +23,12 @@ class ArrayStorageTest extends TestCase
         $storage = new ArrayStorage;
 
         for ($i = 0; $i < 10; $i++) {
-            $storage->add($this->createJob());
+            $storage->add('test', $this->createJob());
         }
 
-        $this->assertCount(1, $storage->retrieve(1));
-        $this->assertCount(3, $storage->retrieve(3));
+        $this->assertCount(1, $storage->retrieve('test', 1));
+        $this->assertCount(3, $storage->retrieve('test', 3));
+        $this->assertEquals(6, $storage->count('test'));
     }
 
     public function testCount()
@@ -36,9 +36,16 @@ class ArrayStorageTest extends TestCase
         $storage = new ArrayStorage;
 
         for ($i = 0; $i < 10; $i++) {
-            $storage->add($this->createJob());
+            $storage->add('test', $this->createJob());
         }
 
-        $this->assertCount(10, $storage);
+        $this->assertEquals(10, $storage->count('test'));
+    }
+
+    public function testCountWithEmptyElements()
+    {
+        $storage = new ArrayStorage();
+
+        $this->assertEquals(0, $storage->count('test'));
     }
 }

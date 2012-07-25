@@ -23,9 +23,9 @@ class RedisStorageTest extends TestCase
 
     protected function tearDown()
     {
-        $ids = $this->client->hkeys(RedisStorage::HASH_NAME);
+        $ids = $this->client->hkeys('test');
         foreach ($ids as $id) {
-            $this->client->hdel(RedisStorage::HASH_NAME, $id);
+            $this->client->hdel('test', $id);
         }
     }
 
@@ -34,26 +34,31 @@ class RedisStorageTest extends TestCase
     {
         $job = $this->createJob();
 
-        $this->assertTrue($this->storage->add($job));
+        $this->assertTrue($this->storage->add('test', $job));
     }
 
     public function testCount()
     {
-        $this->assertEquals(0, $this->storage->count());
+        $this->assertEquals(0, $this->storage->count('test'));
 
-        $this->storage->add($this->createJob());
-        $this->storage->add($this->createJob());
+        $this->storage->add('test', $this->createJob());
+        $this->storage->add('test', $this->createJob());
 
-        $this->assertCount(2, $this->storage);
+        $this->assertEquals(2, $this->storage->count('test'));
+    }
+
+    public function testCountWithEmptyElements()
+    {
+        $this->assertEquals(0, $this->storage->count('test'));
     }
 
     public function testRetrieve()
     {
         for ($i = 0; $i < 10; $i++) {
-            $this->storage->add($this->createJob());
+            $this->storage->add('test', $this->createJob());
         }
 
-        $this->assertCount(2, $this->storage->retrieve(2));
-        $this->assertCount(8, $this->storage);
+        $this->assertCount(2, $this->storage->retrieve('test', 2));
+        $this->assertEquals(8, $this->storage->count('test'));
     }
 }

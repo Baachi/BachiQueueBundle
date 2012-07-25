@@ -24,4 +24,11 @@ interface QueueInterface
      * @return array
      */
     function retrieve($count);
+
+    /**
+     * Return the queue name
+     *
+     * @return string
+     */
+    function getName();
 }
