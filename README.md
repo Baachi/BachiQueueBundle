@@ -14,6 +14,17 @@ Add it to your composer.json file
 }
 ```
 
+## Usage ##
+
+```php
+<?php
+
+$jobs = $this->container->get('bachi.queue_manager')->get('main')->retrieve(5);
+foreach ($jobs as $job) {
+    $job->doSomething();
+}
+```
+
 ### Storages ###
 
  * Array
