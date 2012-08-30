@@ -1,6 +1,6 @@
 # Queue bundle
 
-[![Build Status](https://secure.travis-ci.org/Baachi/CouchDB.png?branch=master)](http://travis-ci.org/Baachi/BachiQueueBundle)
+[![Build Status](https://secure.travis-ci.org/Baachi/BachiQueueBundle.png?branch=master)](http://travis-ci.org/Baachi/BachiQueueBundle)
 
 ## Install ##
 
