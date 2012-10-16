@@ -79,14 +79,13 @@ class DBALStorage implements StorageInterface
             $ids[] = $row['id'];
         }
 
-        $stmt = $this->conn->prepare(sprintf(
-            'DELETE FROM %s WHERE %s IN (:ids)',
+        $sql = sprintf(
+            'DELETE FROM %s WHERE %s IN (?)',
             $this->conn->quoteIdentifier($this->options['table']),
             $this->conn->quoteIdentifier($this->options['id_column'])
-        ));
+        );
 
-        $stmt->bindParam('ids', $ids, Connection::PARAM_INT_ARRAY);
-        $stmt->execute();
+        $stmt = $this->conn->executeQuery($sql, array($ids), array(Connection::PARAM_INT_ARRAY));
 
         return $jobs;
     }
