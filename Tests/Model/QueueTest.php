@@ -18,7 +18,7 @@ class QueueTest extends TestCase
 
         $storage = new ArrayStorage();
 
-        $queue = new Queue($storage, 'test');
+        $queue = new Queue($this->createContainerMock(), $storage, 'test');
 
         $this->assertTrue($queue->add($job));
 
@@ -27,7 +27,7 @@ class QueueTest extends TestCase
 
     public function testRetrieve()
     {
-        $queue = new Queue(new ArrayStorage, 'test');
+        $queue = new Queue($this->createContainerMock(), new ArrayStorage, 'test');
 
         for ($i = 0; $i < 10; $i++) {
             $queue->add($this->createJob());
@@ -41,7 +41,7 @@ class QueueTest extends TestCase
      */
     public function testRetrieveWithInvalidAmount()
     {
-        $queue = new Queue(new ArrayStorage(), 'test');
+        $queue = new Queue($this->createContainerMock(), new ArrayStorage(), 'test');
 
         $queue->retrieve(1);
     }
@@ -51,7 +51,7 @@ class QueueTest extends TestCase
      */
     public function testRetrieveWithZero()
     {
-        $queue = new Queue(new ArrayStorage(), 'test');
+        $queue = new Queue($this->createContainerMock(), new ArrayStorage(), 'test');
 
         $queue->retrieve(0);
     }

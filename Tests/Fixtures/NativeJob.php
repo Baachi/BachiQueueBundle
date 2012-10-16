@@ -1,6 +1,6 @@
 <?php
 
-namespace Bachi\QueueBundle\Tests\Fixture;
+namespace Bachi\QueueBundle\Tests\Fixtures;
 
 use Bachi\QueueBundle\Model\JobInterface;
 
