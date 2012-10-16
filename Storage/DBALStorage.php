@@ -73,13 +73,20 @@ class DBALStorage implements StorageInterface
 
         $stmt->execute(array($name));
 
-        $jobs = array();
+        $ids = $jobs = array();
         foreach ($stmt->fetchAll(\PDO::FETCH_ASSOC) as $row) {
             $jobs[] = unserialize(base64_decode($row['bin']));
-            $this->conn->delete($this->options['table'], array(
-                $this->options['id_column'] => $row['id'],
-            ));
+            $ids[] = $row['id'];
         }
+
+        $stmt = $this->conn->prepare(sprintf(
+            'DELETE FROM %s WHERE %s IN (:ids)',
+            $this->conn->quoteIdentifier($this->options['table']),
+            $this->conn->quoteIdentifier($this->options['id_column'])
+        ));
+
+        $stmt->bindParam('ids', $ids, Connection::PARAM_INT_ARRAY);
+        $stmt->execute();
 
         return $jobs;
     }
