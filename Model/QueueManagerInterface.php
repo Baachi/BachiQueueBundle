@@ -31,10 +31,9 @@ interface QueueManagerInterface
     /**
      * Register a queue
      *
-     * @param string         $name  A unique name
      * @param QueueInterface $queue The queue object
      */
-    function register($name, QueueInterface $queue);
+    function register(QueueInterface $queue);
 
     /**
      * Unregister a queue from the manager.

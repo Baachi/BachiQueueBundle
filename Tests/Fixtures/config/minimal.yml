@@ -1,0 +1,10 @@
+bachi_queue:
+    storages:
+        redis:
+            type: redis
+            host: localhost
+            port: 6379
+    queues:
+        main:
+            name: main
+            storage: redis

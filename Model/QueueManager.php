@@ -39,9 +39,9 @@ class QueueManager implements QueueManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function register($name, QueueInterface $queue)
+    public function register(QueueInterface $queue)
     {
-        $this->queues[$name] = $queue;
+        $this->queues[$queue->getName()] = $queue;
     }
 
     /**

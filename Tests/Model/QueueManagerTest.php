@@ -24,7 +24,7 @@ class QueueManagerTest extends TestCase
 
     public function testGet()
     {
-        $this->manager->register('test', $queue = $this->createQueue());
+        $this->manager->register($queue = $this->createQueue());
 
         $this->assertEquals($queue, $this->manager->get('test'));
     }
@@ -40,18 +40,18 @@ class QueueManagerTest extends TestCase
     public function testHas()
     {
         $this->assertFalse($this->manager->has('test'));
-        $this->manager->register('test', $this->createQueue());
+        $this->manager->register($this->createQueue());
         $this->assertTrue($this->manager->has('test'));
     }
 
     public function testRegister()
     {
-        $this->manager->register('test', $queue = $this->createQueue());
+        $this->manager->register($this->createQueue());
     }
 
     public function testUnregister()
     {
-        $this->manager->register('test', $queue = $this->createQueue());
+        $this->manager->register( $queue = $this->createQueue());
         $this->assertTrue($this->manager->has('test'));
         $this->manager->unregister('test');
         $this->assertFalse($this->manager->has('test'));

@@ -2,6 +2,8 @@
 
 namespace Bachi\QueueBundle\Model;
 
+use Bachi\QueueBundle\Storage\StorageInterface;
+
 /**
  * @author Markus Bachmann <markus.bachmann@bachi.biz
  */
@@ -15,6 +17,13 @@ interface QueueInterface
      * @return Boolean
      */
     function add(JobInterface $job);
+
+    /**
+     * Return the storage
+     *
+     * @return StorageInterface
+     */
+    function getStorage();
 
     /**
      * Fetch jobs from the queue

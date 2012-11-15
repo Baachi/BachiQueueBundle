@@ -50,6 +50,14 @@ class Queue implements QueueInterface
     /**
      * {@inheritDoc}
      */
+    public function getStorage()
+    {
+        return $this->storage;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function add(JobInterface $job)
     {
         $this->storage->add($this->name, $job);
