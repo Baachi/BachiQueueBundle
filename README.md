@@ -32,7 +32,7 @@ foreach ($jobs as $job) {
  * Redis
  * RDBMS
 
-## Licence ##
+## License ##
 
 This bundle is licenced under the MIT licence.
 For more information read the full licence.
