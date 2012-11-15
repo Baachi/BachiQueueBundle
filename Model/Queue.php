@@ -74,12 +74,12 @@ class Queue implements QueueInterface
             throw new \RuntimeException('$count must be greater then 0');
         }
 
-        if ($count > $max = $this->storage->count($this->name)) {
-            throw new \RuntimeException(sprintf('$count is greater then the maximum size of %d', $max));
-        }
-
         $jobs = $this->storage->retrieve($this->name, $count);
         $container = $this->container;
+
+        if (empty($jobs)) {
+            return null;
+        }
 
         array_walk($jobs, function(JobInterface $job) use ($container) {
             if ($job instanceof ContainerAwareInterface) {

@@ -41,6 +41,10 @@ class ArrayStorage implements StorageInterface
     {
         $jobs = array();
 
+        if (!isset($this->jobs[$name])) {
+            return array();
+        }
+
         foreach (array_slice($this->jobs[$name], 0, $max) as $job) {
             $jobs[] = unserialize($job);
         }

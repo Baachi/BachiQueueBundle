@@ -30,7 +30,7 @@ interface QueueInterface
      *
      * @param integer $count
      *
-     * @return array
+     * @return array|null
      */
     function retrieve($count);
 

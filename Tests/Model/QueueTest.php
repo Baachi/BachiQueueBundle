@@ -36,14 +36,11 @@ class QueueTest extends TestCase
         $this->assertCount(10, $queue->retrieve(10));
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testRetrieveWithInvalidAmount()
     {
         $queue = new Queue($this->createContainerMock(), new ArrayStorage(), 'test');
 
-        $queue->retrieve(1);
+        $this->assertNull($queue->retrieve(1));
     }
 
     /**

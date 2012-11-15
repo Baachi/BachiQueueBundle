@@ -7,4 +7,8 @@ namespace Bachi\QueueBundle\Model;
  */
 interface JobInterface extends \Serializable
 {
+    /**
+     * Process the job
+     */
+    function process();
 }

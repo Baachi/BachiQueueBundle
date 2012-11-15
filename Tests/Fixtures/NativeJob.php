@@ -38,6 +38,13 @@ class NativeJob implements JobInterface
     /**
      * {@inheritDoc}
      */
+    /**
+     * Process the job
+     */
+    public function process()
+    {
+    }
+
     public function serialize()
     {
         return serialize($this->data);
