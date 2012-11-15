@@ -4,6 +4,7 @@
     "type": "symfony-bundle",
     "keywords": ["queue"],
     "homepage": "https://github.com/Baachi/BachiQueueBundle",
+    "version": "1.0-BETA",
     "licence": "MIT",
     "authors": [
         {
