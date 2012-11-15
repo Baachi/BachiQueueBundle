@@ -1,4 +1,21 @@
 {
+    "name": "bachi/queue-bundle",
+    "description": "Queuemanagement for symfony2. (Multiple backends)",
+    "type": "symfony-bundle",
+    "keywords": ["queue"],
+    "homepage": "https://github.com/Baachi/BachiQueueBundle",
+    "licence": "MIT",
+    "authors": [
+        {
+            "name": "Markus Bachmann",
+            "email": "markus.bachmann@bachi.biz",
+            "homepage": "http://bachi.biz"
+        }
+    ],
+    "support": {
+        "email": "markus.bachmann@bachi.biz",
+        "issues": "https://github.com/Baachi/BachiQueueBundle/issues"
+    },
     "require-dev": {
         "symfony/symfony": "2.*",
         "doctrine/dbal": "2.*",
