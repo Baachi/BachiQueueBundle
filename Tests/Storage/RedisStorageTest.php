@@ -23,10 +23,7 @@ class RedisStorageTest extends TestCase
 
     protected function tearDown()
     {
-        $ids = $this->client->hkeys('test');
-        foreach ($ids as $id) {
-            $this->client->hdel('test', $id);
-        }
+        $this->client->del('test'); 
     }
 
 
