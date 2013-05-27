@@ -19,33 +19,27 @@ class RedisStorage implements StorageInterface
 
     public function count($name)
     {
-        return $this->client->hlen($name);
+        return $this->client->llen($name);
     }
 
     public function add($name, JobInterface $job)
     {
         $content = serialize($job);
-        $key = uniqid(); // TODO find a better way to generate a ID
 
-        $this->client->hset($name, $key, $content);
+        $this->client->rpush($name, $content);
         return true;
     }
 
     public function retrieve($name, $max)
     {
-        $ids = $this->client->hkeys($name);
-        $ids = array_slice($ids, 0, $max);
-
-        $arguments = $ids;
-        array_unshift($arguments, $name);
-
-        $values = call_user_func_array(array($this->client, 'hmget'), $arguments);
-
         $jobs = array();
+        while ($max > 0) {
+            $string = $this->client->lpop($name);
 
-        foreach ($values as $key => $value) {
-            $jobs[] = unserialize($value);
-            $this->client->hdel($name, $ids[$key]);
+            if ($string) {
+                $jobs[] = unserialize($string);
+            }
+            $max--;
         }
 
         return $jobs;
