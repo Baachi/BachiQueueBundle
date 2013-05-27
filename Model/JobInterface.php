@@ -8,7 +8,30 @@ namespace Bachi\QueueBundle\Model;
 interface JobInterface extends \Serializable
 {
     /**
-     * Process the job
+     * Return the value from the given key, if they don't
+     * exist it will return $default.
+     * 
+     * @param  string $key     The key
+     * @param  mixed  $default The default value
+     * 
+     * @return mixed
      */
-    function process();
+    public function get($key, $default = null);
+
+    /**
+     * Sets a new parameter.
+     * 
+     * @param string $key   The key
+     * @param mixed  $value The value
+     */
+    public function set($key, $value);
+
+    /**
+     * Check if exists $key.
+     * 
+     * @param  string  $key The key.
+     * 
+     * @return boolean
+     */
+    public function has($key);    
 }

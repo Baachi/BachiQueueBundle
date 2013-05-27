@@ -81,12 +81,6 @@ class Queue implements QueueInterface
             return null;
         }
 
-        array_walk($jobs, function(JobInterface $job) use ($container) {
-            if ($job instanceof ContainerAwareInterface) {
-                $job->setContainer($container);
-            }
-        });
-
         return $jobs;
     }
 }

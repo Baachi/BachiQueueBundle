@@ -54,6 +54,5 @@ class QueueManager implements QueueManagerInterface
         }
 
         unset($this->queues[$name]);
-        return true;
     }
 }

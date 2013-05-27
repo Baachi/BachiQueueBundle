@@ -10,10 +10,22 @@ use Bachi\QueueBundle\Model\JobInterface;
  */
 class DBALStorage implements StorageInterface
 {
+    /**
+     * @var Connection
+     */
     private $conn;
 
+    /**
+     * @var array
+     */
     private $options;
 
+    /**
+     * Constructor.
+     * 
+     * @param Connection $conn    The connection
+     * @param array      $options An array of options.
+     */
     public function __construct(Connection $conn, array $options = array())
     {
         $this->conn = $conn;
@@ -27,6 +39,9 @@ class DBALStorage implements StorageInterface
         ));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function count($name)
     {
         $stmt = $this->conn->prepare(sprintf(
@@ -40,6 +55,9 @@ class DBALStorage implements StorageInterface
         return $stmt->fetchColumn(0);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function add($name, JobInterface $job)
     {
         $content = base64_encode(serialize($job));
@@ -59,6 +77,9 @@ class DBALStorage implements StorageInterface
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function retrieve($name, $max)
     {
         $stmt = $this->conn->prepare(sprintf(

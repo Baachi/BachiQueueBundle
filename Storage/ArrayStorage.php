@@ -14,11 +14,17 @@ class ArrayStorage implements StorageInterface
      */
     private $jobs;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->jobs = array();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function add($name, JobInterface $job)
     {
         if (!isset($this->jobs[$name])) {
@@ -28,6 +34,9 @@ class ArrayStorage implements StorageInterface
         $this->jobs[$name][] = serialize($job);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function count($name)
     {
         if (!isset($this->jobs[$name])) {
@@ -37,6 +46,9 @@ class ArrayStorage implements StorageInterface
         return count($this->jobs[$name]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function retrieve($name, $max)
     {
         $jobs = array();

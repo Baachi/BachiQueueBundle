@@ -2,7 +2,7 @@
 
 namespace Bachi\QueueBundle\Tests;
 
-use Bachi\QueueBundle\Tests\Fixtures\NativeJob;
+use Bachi\QueueBundle\Model\Job;
 use Bachi\QueueBundle\Model\Queue;
 use Bachi\QueueBundle\Storage\ArrayStorage;
 
@@ -24,7 +24,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             array('hello'),
         );
 
-        return new NativeJob($data);
+        return new Job($data);
     }
 
     protected function createContainerMock()

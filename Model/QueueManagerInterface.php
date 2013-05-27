@@ -43,8 +43,6 @@ interface QueueManagerInterface
      * @param string $name The queue name
      *
      * @throws QueueNotExistException
-     *
-     * @return Boolean
      */
     function unregister($name);
 }
