@@ -8,6 +8,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use Bachi\QueueBundle\Exception\ExceptionInterface;
+
 /**
  * Process the queue
  *
@@ -32,7 +34,6 @@ class ProcessCommand extends ContainerAwareCommand
 
         while (true) {
             foreach ($queue->retrieve($max) as $job) {
-                // consumer
             }
 
             sleep(10000);

@@ -38,6 +38,7 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('path')->end()
                         ->scalarNode('host')->end()
                         ->scalarNode('port')->end()
+                        ->scalarNode('path')->end()
                     ->end()
                 ->end()
             ->end();
