@@ -68,7 +68,6 @@ class Queue implements QueueInterface
         }
 
         $jobs = $this->storage->retrieve($this->name, $count);
-        $container = $this->container;
 
         if (empty($jobs)) {
             return null;
