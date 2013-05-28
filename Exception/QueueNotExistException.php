@@ -5,7 +5,7 @@ namespace Bachi\QueueBundle\Exception;
 /**
  * @author Markus Bachmann <markus.bachmann@bachi.biz
  */
-class QueueNotExistException extends \Exception
+class QueueNotExistException extends \Exception implements ExceptionInterface
 {
     public function __construct($name)
     {
