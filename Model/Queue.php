@@ -4,7 +4,6 @@ namespace Bachi\QueueBundle\Model;
 
 use Bachi\QueueBundle\Storage\StorageInterface;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
 /**
  * @author Markus Bachmann <markus.bachmann@bachi.biz
@@ -22,19 +21,13 @@ class Queue implements QueueInterface
     private $name;
 
     /**
-     * @var Container
-     */
-    protected $container;
-
-    /**
      * Constructor
      *
      * @param StorageInterface $storage
      * @param $name
      */
-    public function __construct(Container $container, StorageInterface $storage, $name)
+    public function __construct(StorageInterface $storage, $name)
     {
-        $this->storage = $storage;
         $this->name = $name;
         $this->container = $container;
     }
