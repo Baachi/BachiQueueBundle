@@ -13,7 +13,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
     protected function createQueue()
     {
-        return new Queue($this->createContainerMock(), new ArrayStorage, 'test');
+        return new Queue(new ArrayStorage, 'test');
     }
 
     protected function createJob()

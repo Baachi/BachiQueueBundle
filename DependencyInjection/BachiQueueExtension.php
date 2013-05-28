@@ -29,14 +29,14 @@ class BachiQueueExtension extends Extension
             $type = $storage['type'];
             unset($storage['type']);
 
+            $loader->load('storage/'.$type.'.xml');
+
             foreach ($storage as $key => $value) {
                 $container->setParameter(
                     'bachi_queue.storage.'.$type.'.options.'.$key,
                     $value
                 );
-            }
-
-            $loader->load('storages/'.$type.'.xml');
+            }            
         }
 
         $qm = $container->getDefinition('bachi_queue.queue_manager');
@@ -44,7 +44,6 @@ class BachiQueueExtension extends Extension
         foreach ($config['queues'] as $queue) {
             $definition = new Definition('%bachi_queue.queue.class%');
             $definition->setArguments(array(
-                new Reference('service_container'),
                 new Reference('bachi_queue.storage.'.$queue['storage']),
                 $queue['name']
             ));
